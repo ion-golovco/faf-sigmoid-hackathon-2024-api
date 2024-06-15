@@ -95,8 +95,11 @@ app.post('/user', async function (req, res, next) {
     const email = req.body.email;
     console.log(email);
     if (!email) res.status(400);
-    const user = await supabase.from('users').select().eq('email', email).single();
-    res.json({ ...user });
+    const {data, error} = await supabase.from('users').select().eq('email', email).single();
+    if (error) {
+      res.status(401).json({ error })
+    }
+    res.json({ ...data });
   } catch (error) {
     res.status(401).json({ error: error.message });
   }
