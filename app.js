@@ -21,10 +21,9 @@ app.post('/login', async (req, res, next) => {
     if (error) {
       res.status(401).json({ error })
     }
-
     if (data.password === password) {
       // User successfully logged in
-      res.status({
+      res.json({
         ...data
       });
     } else {
