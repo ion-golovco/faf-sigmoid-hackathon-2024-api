@@ -102,6 +102,10 @@ router.get('/user', async function (req, res, next) {
   }
 });
 
+router.get('/', function (req, res) {
+  res.json({name: 'base'})
+})
+
 const port = 3000;
 
 app.listen(port);
