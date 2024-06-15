@@ -4,8 +4,10 @@ require('dotenv').config();
 
 const { Configuration, OpenAIApi } = require("openai");
 
+var cors = require("cors");
 var app = express();
 
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
