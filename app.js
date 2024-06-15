@@ -69,7 +69,7 @@ app.post('/chat', async function (req, res, next) {  // Extracting the user's me
     openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [{
-        role: "user", content: `${promt} ${message}`
+        role: "user", content: `${message}`
       }]
     })
       .then((response) => {
