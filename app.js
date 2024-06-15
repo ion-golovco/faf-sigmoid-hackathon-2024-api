@@ -7,11 +7,11 @@ const { Configuration, OpenAIApi } = require("openai");
 var app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.post('/login', async (req, res, next) => {
   const { email, password } = req.body;
   console.log(req.body);
-
 
   try {
     // Attempt to sign in the user
