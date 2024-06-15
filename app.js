@@ -1,7 +1,6 @@
 var express = require('express');
-var dotenv = require('dotenv');
 const supabase = require('./supabase');
-const crypto = require('crypto')
+require('dotenv').config();
 
 const { Configuration, OpenAIApi } = require("openai");
 
