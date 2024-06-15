@@ -10,6 +10,8 @@ app.use(express.json());
 
 app.post('/login', async (req, res, next) => {
   const { email, password } = req.body;
+  console.log(req.body);
+
 
   try {
     // Attempt to sign in the user
@@ -34,6 +36,8 @@ app.post('/login', async (req, res, next) => {
 
 app.post('/register', async (req, res, next) => {
   const { email, password, username } = req.body;
+  console.log(req.body);
+
 
   try {
     const { data, error } = await supabase.from('users').insert({
@@ -65,6 +69,7 @@ const promt = "Ești un asistent de vânzări virtual pentru un magazin online d
 
 app.post('/chat', async function (req, res, next) {  // Extracting the user's message from the request body 
   const message = req.body.message;
+  console.log(req.body);
   try {
     openai.createChatCompletion({
       model: "gpt-3.5-turbo",
