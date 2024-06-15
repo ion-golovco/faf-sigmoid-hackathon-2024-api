@@ -1,22 +1,12 @@
-var createError = require('http-errors');
 var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
 var dotenv = require('dotenv');
 const { Configuration, OpenAIApi } = require("openai");
 
-var router = express.Router();
-
 var app = express();
 
-app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-router.post('/login', async (req, res, next) => {
+app.post('/login', async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
@@ -37,7 +27,7 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
-router.post('/register', async (req, res, next) => {
+app.post('/register', async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
@@ -60,13 +50,13 @@ router.post('/register', async (req, res, next) => {
 
 
 const configuration = new Configuration({
-    apiKey: '',
+    apiKey: process.env.OPEN_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
 const conversationContextPrompt = "The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nHuman: Hello, who are you?\nAI: I am an AI created by OpenAI. How can I help you today?\nHuman: ";
 
-router.post('/', async function (req, res, next) {  // Extracting the user's message from the request body 
+app.post('/', async function (req, res, next) {  // Extracting the user's message from the request body 
     const message = req.body.message;
     console.log(message)
     try {
@@ -92,7 +82,7 @@ router.post('/', async function (req, res, next) {  // Extracting the user's mes
 
 });
 
-router.get('/user', async function (req, res, next) {
+app.get('/user', async function (req, res, next) {
   try {
     const session = await supabase.auth.getUser(req.headers.authorization);
     const user = await supabase.from('users').select().eq('email', session.data.user?.email).single();
@@ -102,12 +92,22 @@ router.get('/user', async function (req, res, next) {
   }
 });
 
-router.get('/', function (req, res) {
+app.post('/user', async function (req, res, next) {
+  try {
+    await supabase.auth.getUser(req.headers.authorization);
+    const user = await supabase.from('users').insert({
+      interest: req.body.interest,
+      username: req.body.username,
+      email: req.body.email,
+    }).select().single();
+    res.json({ ...user });
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
+});
+
+app.get('/', function (req, res) {
   res.json({name: 'base'})
 })
-
-const port = 3000;
-
-app.listen(port);
 
 module.exports = app;
