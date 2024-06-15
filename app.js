@@ -73,7 +73,7 @@ app.post('/chat', async function (req, res, next) {  // Extracting the user's me
       }]
     })
       .then((response) => {
-        res.json(response.data.choices);
+        res.json(response.data.choices[0].message.content);
       })
   } catch (error) {
     res.status(401).json({
