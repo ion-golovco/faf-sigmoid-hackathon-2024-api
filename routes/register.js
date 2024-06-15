@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 const supabase = require('../supabase');
 
-// POST / register
+// POST /register
 router.post('/', async (req, res, next) => {
-    const { email, password, username } = req.body;
+    const { email, password } = req.body;
 
     try {
         // Attempt to register the user
