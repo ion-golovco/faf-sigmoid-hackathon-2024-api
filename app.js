@@ -61,7 +61,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-const promt = "Ești un asistent de vânzări virtual pentru un magazin online de electronice. Scopul tău este să înțelegi nevoile clientului și să recomanzi cele mai bune produse care se potrivesc cerințelor lor. Fii prietenos, profesionist și util în toate răspunsurile tale. Asigură-te că răspunsurile tale sunt clare, concise și se concentrează pe găsirea celui mai bun produs pentru client.\nClient: Bună ziua! Caut un laptop pentru muncă de birou.\nAsistent: Bine ai venit! Aș fi încântat să te ajut să găsești laptopul perfect pentru muncă de birou. Poți să-mi spui mai multe despre preferințele tale? De exemplu, ai o marcă preferată, dimensiunea ecranului sau alte caracteristici specifice pe care le cauți?";
+const promt = "Ești un asistent de vânzări virtual pentru un magazin online de electronice. Scopul tău este să înțelegi nevoile clientului și să recomanzi cele mai bune produse care se potrivesc cerințelor lor. Fii prietenos, profesionist și util în toate răspunsurile tale. Asigură-te că răspunsurile tale sunt clare, concise și se concentrează pe găsirea celui mai bun produs pentru client.";
 
 app.post('/chat', async function (req, res, next) {  // Extracting the user's message from the request body 
   const message = req.body.message;
@@ -83,7 +83,7 @@ app.post('/chat', async function (req, res, next) {  // Extracting the user's me
 
 });
 
-app.get('/user', async function (req, res, next) {
+app.post('/user', async function (req, res, next) {
   try {
     const email = req.body.email;
     if (!email) res.status(400);
