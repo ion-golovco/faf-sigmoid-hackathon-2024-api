@@ -7,7 +7,7 @@ const { Configuration, OpenAIApi } = require("openai");
 var app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 app.post('/login', async (req, res, next) => {
   const { email, password } = req.body;
