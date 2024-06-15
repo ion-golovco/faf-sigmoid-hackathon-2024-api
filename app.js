@@ -69,7 +69,7 @@ const openai = new OpenAIApi(configuration);
 
 const promt = "Ești un asistent de vânzări virtual pentru un magazin online de electronice. Scopul tău este să înțelegi nevoile clientului și să recomanzi cele mai bune produse care se potrivesc cerințelor lor. Fii prietenos, profesionist și util în toate răspunsurile tale. Asigură-te că răspunsurile tale sunt clare, concise și se concentrează pe găsirea celui mai bun produs pentru client.";
 
-app.post('/chat', async function (req, res, next) { 
+app.post('/chat', async function (req, res, next) {
   const message = req.body.message;
   try {
     openai.createChatCompletion({
@@ -95,11 +95,14 @@ app.post('/user', async function (req, res, next) {
     const email = req.body.email;
     console.log(email);
     if (!email) res.status(400);
-    const {data, error} = await supabase.from('users').select().eq('email', email).single();
+    const { data, error } = await supabase.from('users').select().eq('email', email).single();
     if (error) {
       res.status(401).json({ error })
     }
-    res.json({ ...data });
+    res.json({
+      username: data.username,
+      email: data.email
+    });
   } catch (error) {
     res.status(401).json({ error: error.message });
   }
