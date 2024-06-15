@@ -34,7 +34,7 @@ app.post('/login', async (req, res, next) => {
 });
 
 app.post('/register', async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, username } = req.body;
 
   try {
     const { data, error } = await supabase.from('users').insert({
@@ -104,5 +104,8 @@ app.get('/user', async function (req, res, next) {
 app.get('/', function (req, res) {
   res.json({ name: 'helou' })
 })
+
+app.listen(3000)
+
 
 module.exports = app;
