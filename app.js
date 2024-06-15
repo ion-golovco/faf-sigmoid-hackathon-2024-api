@@ -39,24 +39,27 @@ app.post('/login', async (req, res, next) => {
 app.post('/register', async (req, res, next) => {
   const { email, password, username } = req.body;
   const { data: foundUser } = await supabase.from('users').select().eq('email', email).single()
-  if (!foundUser?.email) res.status(400);
-  try {
-    const { data, error } = await supabase.from('users').insert({
-      email,
-      password,
-      username
-    }).select().single();
+  console.log(foundUser);
+  if (foundUser.id) { res.status(400).json({ error: 'error' }) }
+  else {
+    try {
+      const { data, error } = await supabase.from('users').insert({
+        email,
+        password,
+        username
+      }).select().single();
 
-    if (error) {
-      res.status(401).json({ error })
+      if (error) {
+        res.status(401).json({ error })
+      }
+
+      res.status(200).json({
+        ...data
+      })
+
+    } catch (error) {
+      res.status(400).json({ error: error.message });
     }
-
-    res.status(200).json({
-      ...data
-    })
-
-  } catch (error) {
-    res.status(400).json({ error: error.message });
   }
 });
 
