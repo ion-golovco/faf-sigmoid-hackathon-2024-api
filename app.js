@@ -38,9 +38,8 @@ app.post('/login', async (req, res, next) => {
 
 app.post('/register', async (req, res, next) => {
   const { email, password, username } = req.body;
-  console.log(req.body);
-
-
+  const { data: foundUser } = await supabase.from('users').select().eq('email', email)
+  if (foundUser) res.status(400);
   try {
     const { data, error } = await supabase.from('users').insert({
       email,
