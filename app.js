@@ -64,7 +64,7 @@ const openai = new OpenAIApi(configuration);
 
 const conversationContextPrompt = "The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nHuman: Hello, who are you?\nAI: I am an AI created by OpenAI. How can I help you today?\nHuman: ";
 
-app.post('/', async function (req, res, next) {  // Extracting the user's message from the request body 
+app.post('/chat', async function (req, res, next) {  // Extracting the user's message from the request body 
   const message = req.body.message;
   console.log(message)
   try {
