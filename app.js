@@ -93,8 +93,9 @@ app.post('/chat', async function (req, res, next) {  // Extracting the user's me
 app.post('/user', async function (req, res, next) {
   try {
     const email = req.body.email;
+    console.log(email);
     if (!email) res.status(400);
-    const user = await supabase.from('users').select().eq('email', {email}).single();
+    const user = await supabase.from('users').select().eq('email', email).single();
     res.json({ ...user });
   } catch (error) {
     res.status(401).json({ error: error.message });
