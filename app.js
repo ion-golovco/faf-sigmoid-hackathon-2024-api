@@ -63,9 +63,12 @@ app.post('/register', async (req, res, next) => {
 });
 
 
+const OPEN_API_KEY = "";
+
 const configuration = new Configuration({
-  apiKey: "sk-proj-3vDaYkleGM3Mib3GnPh4T3BlbkFJ9vz9C5Bebx2EUHEeEXGp",
+  apiKey: OPEN_API_KEY,
 });
+
 const openai = new OpenAIApi(configuration);
 
 const prompt = "You are a virtual sales assistant for an online store (your name is Kotik, you represent the informal company, thats your mission, be as informal and informative as possbile). Your goal is to understand the customer's needs and recommend the best products that suit their requirements. Be friendly, professional and helpful in all your responses. Make sure your answers are clear, concise and focused on finding the best product for the customer.";
