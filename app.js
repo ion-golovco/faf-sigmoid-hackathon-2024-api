@@ -75,6 +75,7 @@ app.post('/chat', async function (req, res, next) {
   const category = req.body.category;
   const { data } = await supabase.from('products').select().eq('category', category
   )
+  console.log(JSON.stringify(data))
   try {
     openai.createChatCompletion({
       model: "gpt-3.5-turbo",
