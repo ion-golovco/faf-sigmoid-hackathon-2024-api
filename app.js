@@ -77,19 +77,19 @@ app.post('/chat', async function (req, res, next) {
   const productsAi = data.map(({id, name, description}) => ({id, name, description}))
   try {
     openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
+      model: "gpt-3.5-turbo-16k-0613",
       messages: [{
         role: "user", content: `initial prompt:${prompt} ... recommended products ${JSON.stringify(productsAi)} ... last 3 messages: ${message} ... return a small greeting/info about your choices(name,etc) and product ids (id property) of reccomended products in the style of [1, 5, 12, 67]. If your asked also respond to messages.`
       }]
     })
       .then((response) => {
         const chatResponse = response.data.choices[0].message.content
-        const ids = chatResponse.split('[')?.filter((r, index) => index % 2 !== 0)?.map((r)=> r.split(']')?.filter((_, index) => index % 2 == 0))?.flat()[0]?.split(',')?.map(Number)
+        const ids = chatResponse.split('[')?.filter((r, index) => index % 2 !== 0)?.map((r)=> r.split(']')?.filter((_, index) => index % 2 == 0))?.flat()[0]?.split(',')?.map(Number)?.slice(0, 4);
         
         res.json(
           {
             message: chatResponse,
-            products: data.filter((p)=> ids.includes(p.id))
+            products: ids?.length ? data.filter((p)=> ids.includes(p.id)) : [],
           }
         )
       })
