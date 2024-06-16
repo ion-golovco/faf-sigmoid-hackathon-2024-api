@@ -84,7 +84,7 @@ app.post('/chat', async function (req, res, next) {
     })
       .then((response) => {
         const chatResponse = response.data.choices[0].message.content
-        const ids = chatResponse.split('[')?.filter((r, index) => index % 2 !== 0).map((r)=> r.split(']')?.filter((_, index) => index % 2 == 0))?.flat()[0].split(',')?.map(Number)
+        const ids = chatResponse.split('[')?.filter((r, index) => index % 2 !== 0)?.map((r)=> r.split(']')?.filter((_, index) => index % 2 == 0))?.flat()[0]?.split(',')?.map(Number)
         
         res.json(
           {
