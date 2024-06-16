@@ -79,7 +79,7 @@ app.post('/chat', async function (req, res, next) {
     openai.createChatCompletion({
       model: "gpt-3.5-turbo-16k-0613",
       messages: [{
-        role: "user", content: `initial prompt:${prompt} ... recommended products ${JSON.stringify(productsAi)} ... last 3 messages: ${message} ... return a small greeting/info about your choices(name,etc) and product ids (id property) of reccomended products in the style of [1, 5, 12, 67]. If your asked also respond to messages. also say nya at the end`
+        role: "user", content: `initial prompt:${prompt} ... recommended products ${JSON.stringify(productsAi)} ... last 3 messages newest to latest: ${message} ... return a small greeting/info about your choices(name,etc) and product ids (id property) of reccomended products in the style of [1, 5, 12, 67]. If your asked also respond to messages. also say nya at the end`
       }]
     })
       .then((response) => {
