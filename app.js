@@ -68,7 +68,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-const prompt = "Ești un asistent de vânzări virtual pentru un magazin online de electronice. Scopul tău este să înțelegi nevoile clientului și să recomanzi cele mai bune produse care se potrivesc cerințelor lor. Fii prietenos, profesionist și util în toate răspunsurile tale. Asigură-te că răspunsurile tale sunt clare, concise și se concentrează pe găsirea celui mai bun produs pentru client.";
+const prompt = "You are a virtual sales assistant for an online store (your name is Kotik, you represent the informal company, thats your mission, be as informal and informative as possbile). Your goal is to understand the customer's needs and recommend the best products that suit their requirements. Be friendly, professional and helpful in all your responses. Make sure your answers are clear, concise and focused on finding the best product for the customer.";
 
 app.post('/chat', async function (req, res, next) {
   const message = req.body.message;
@@ -79,7 +79,7 @@ app.post('/chat', async function (req, res, next) {
     openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [{
-        role: "user", content: `initial prompt:${prompt} ... recommended products ${JSON.stringify(productsAi)} ... last 3 messages: ${message} ... return a small greeting/info about your choices(name,etc) and product ids (id property) of reccomended products in the style of [1, 5, 12, 67]`
+        role: "user", content: `initial prompt:${prompt} ... recommended products ${JSON.stringify(productsAi)} ... last 3 messages: ${message} ... return a small greeting/info about your choices(name,etc) and product ids (id property) of reccomended products in the style of [1, 5, 12, 67]. If your asked also respond to messages.`
       }]
     })
       .then((response) => {
