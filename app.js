@@ -73,18 +73,25 @@ const prompt = "Ești un asistent de vânzări virtual pentru un magazin online 
 app.post('/chat', async function (req, res, next) {
   const message = req.body.message;
   const category = req.body.category;
-  const { data } = await supabase.from('products').select().eq('category', category
-  )
-  console.log(JSON.stringify(data))
+  const { data } = await supabase.from('products').select().eq('categories', category);
+  const productsAi = data.map(({id, name, description}) => ({id, name, description}))
   try {
     openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [{
-        role: "user", content: `initial prompt:${prompt} ... recommended products ${JSON.stringify(data)} ... last 3 messages: ${message} ... return product ids of reccomended products`
+        role: "user", content: `initial prompt:${prompt} ... recommended products ${JSON.stringify(productsAi)} ... last 3 messages: ${message} ... return a small greeting/info about your choices(name,etc) and product ids (id property) of reccomended products in the style of [1, 5, 12, 67]`
       }]
     })
       .then((response) => {
-        res.json(response.data.choices[0].message.content);
+        const chatResponse = response.data.choices[0].message.content
+        const ids = chatResponse.split('[')?.filter((r, index) => index % 2 !== 0).map((r)=> r.split(']')?.filter((_, index) => index % 2 == 0))?.flat()[0].split(',')?.map(Number)
+        
+        res.json(
+          {
+            message: chatResponse,
+            products: data.filter((p)=> ids.includes(p.id))
+          }
+        )
       })
   } catch (error) {
     res.status(401).json({
