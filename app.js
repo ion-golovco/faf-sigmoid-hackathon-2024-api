@@ -62,11 +62,8 @@ app.post('/register', async (req, res, next) => {
   }
 });
 
-
-const OPEN_API_KEY = "";
-
 const configuration = new Configuration({
-  apiKey: OPEN_API_KEY,
+  apiKey: process.env.OPEN_API_KEY,
 });
 
 const openai = new OpenAIApi(configuration);
